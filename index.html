@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; connect-src https://api.github.com; manifest-src 'self'; worker-src 'self'">
+  <meta name="theme-color" content="#22170F">
+  <meta name="referrer" content="no-referrer">
+  <title>Aprobar Poker</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <img src="icons/icon-192.png" alt="" width="32" height="32">
+      <span>Aprobar <b>Poker</b></span>
+    </div>
+    <div class="top-actions">
+      <button id="btn-refresh" class="icon-btn" type="button" aria-label="Actualizar" title="Actualizar">↻</button>
+      <button id="btn-settings" class="icon-btn" type="button" aria-label="Ajustes" title="Ajustes">⚙</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="view-setup" class="card setup" hidden>
+      <h1>Conectar con GitHub</h1>
+      <p>La app lee los posts que arma Claude y aprueba o rechaza el Pull Request. El token queda guardado <b>solo en este dispositivo</b>.</p>
+      <ol class="steps">
+        <li>En GitHub: Settings → Developer settings → <b>Fine-grained tokens</b> → Generate.</li>
+        <li><b>Repository access:</b> solo <code>poker-ig-brain</code>.</li>
+        <li><b>Permisos:</b> Contents (Read and write) y Pull requests (Read and write).</li>
+        <li>Pegalo acá abajo. No lo compartas con nadie.</li>
+      </ol>
+      <form id="setup-form" autocomplete="off">
+        <label>Usuario u organización
+          <input id="in-owner" required value="Tizi14rp" spellcheck="false">
+        </label>
+        <label>Repositorio
+          <input id="in-repo" required value="poker-ig-brain" spellcheck="false">
+        </label>
+        <label>Token de GitHub
+          <input id="in-token" type="password" required placeholder="github_pat_…" spellcheck="false">
+        </label>
+        <button class="btn primary" type="submit">Conectar</button>
+        <p id="setup-error" class="error" role="alert"></p>
+      </form>
+    </section>
+
+    <section id="view-main" hidden>
+      <nav class="tabs" role="tablist">
+        <button class="tab active" data-tab="pending" role="tab" type="button">Pendientes <span id="count-pending" class="badge">0</span></button>
+        <button class="tab" data-tab="done" role="tab" type="button">Aprobados</button>
+      </nav>
+      <div id="tab-pending" class="tab-panel"></div>
+      <div id="tab-done" class="tab-panel" hidden></div>
+    </section>
+
+    <section id="view-settings" class="card" hidden>
+      <h1>Ajustes</h1>
+      <p>Conectado a <code id="settings-repo"></code>.</p>
+      <button id="btn-logout" class="btn danger" type="button">Olvidar el token de este dispositivo</button>
+      <button id="btn-back" class="btn" type="button">Volver</button>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <dialog id="dlg">
+    <form method="dialog" class="dlg-body">
+      <h2 id="dlg-title"></h2>
+      <p id="dlg-text"></p>
+      <textarea id="dlg-input" rows="4" hidden></textarea>
+      <div class="dlg-actions">
+        <button value="cancel" class="btn" type="submit" formnovalidate>Cancelar</button>
+        <button value="ok" id="dlg-ok" class="btn primary" type="submit">Confirmar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
