@@ -1,5 +1,5 @@
 // Cachea solo la "cáscara" de la app para que abra rápido e instalable. La API de GitHub nunca se cachea.
-const CACHE = "aprobar-poker-v1";
+const CACHE = "aprobar-poker-v2";
 const SHELL = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png"];
 
 self.addEventListener("install", (e) => {

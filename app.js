@@ -116,7 +116,8 @@ function handleError(err) {
 
 // ---------- pendientes ----------
 
-const dateFromRef = (ref) => (ref.match(/^claude\/post-(\d{4}-\d{2}-\d{2})$/) || [])[1];
+// claude/post-2026-11-27 y las alternativas tras un rechazo: claude/post-2026-11-27-b, -c…
+const dateFromRef = (ref) => (ref.match(/^claude\/post-(\d{4}-\d{2}-\d{2})(?:-[a-z0-9]+)?$/) || [])[1];
 
 async function loadPending() {
   const panel = $("tab-pending");
